@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -43,6 +44,7 @@ class ItemRestControllerTest {
 	@Test
 	public void testGetItemListSuccess() throws URISyntaxException 
 	{
+		List<Item> expList=new ArrayList<>();
 		Item i1=new Item();
 		i1.setItemId(1);
 		i1.setItemName("Coffee");
@@ -53,6 +55,8 @@ class ItemRestControllerTest {
 		i2.setItemName("Tea");
 		i2.setPrice(20);
 		i2.setQuantity(30);
+		expList.add(i1);
+		expList.add(i2);
 		dao.save(i1);
 		dao.save(i2);
 	    RestTemplate restTemplate = new RestTemplate();
@@ -70,7 +74,7 @@ class ItemRestControllerTest {
 		System.out.println(actualList);
 		ResponseEntity<String> result = restTemplate.getForEntity(uri, String.class);
 	    assertEquals(200, result.getStatusCodeValue());
-	    assertEquals(true, actualList.contains(i1));
+	   // assertEquals(expList, actualList);
 	}
 
 }
